@@ -86,5 +86,7 @@ Several potential enhancements and features in the pipeline:
 ## **Contact information:**
 
 Name: Gwendolyn Amanda
+
 Email: gwen.amalyn@gmail.com
+
 Twiter: [ama*lyn*](https://twitter.com/ama_lyn_)
