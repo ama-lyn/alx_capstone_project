@@ -67,7 +67,13 @@ _MoneyM8 is your financial companion, guiding you toward financial empowerment a
 
 ## **Technologies used:**
 
-Will be updated soon ッ
+1. **HTML:** HTML is used to create the structure and content of web pages, defining elements and layout.
+
+2. **CSS:** CSS is employed for styling, controlling the visual presentation and layout of web content.
+
+3. **Javascript:** JavaScript is used for interactivity and to add dynamic behavior to the website, enhancing user experiences.
+
+4. **Python(Flask):** Python, along with the Flask web framework, is used to develop the backend of the web application, rendering templates.
 
 ## **Screenshots or Demo:**
 
