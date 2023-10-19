@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoneyM8</title>
+    <link rel="stylesheet" href="../static/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="../static/financials.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav id="nav-bar">
+        <img src="../static/6.jpg" alt="logo" />
+        <ul>
+          <li>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+          </li>
+          <li>
+            <a href="/financials" class="nav-link">Financials</a>
+          </li>
+          <li><a href="/financewatch" class="nav-link">Finance Watch</a></li>
+          <li><a href="/analytics" class="nav-link">Analytics</a></li>
+          <li><a href="/contact" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div id="summary">
+      <div class="summary-content">
+        <i class="fa-solid fa-scale-balanced" style="color: #a98f76"></i>
+        <p>Available Balance</p>
+        <span id="available-balance"></span>
+      </div>
+      <div class="summary-content">
+        <i class="fa-solid fa-sack-dollar" style="color: #a98f76"></i>
+        <p>Total Income</p>
+        <span id="total-income"></span>
+      </div>
+      <div class="summary-content">
+        <i class="fa-solid fa-money-bill-trend-up" style="color: #a98f76"></i>
+        <p>Total Expenses</p>
+        <span id="total-expenses"></span>
+      </div>
+      <div class="summary-content">
+        <i class="fa-solid fa-piggy-bank" style="color: #a98f76"></i>
+        <p>Total Savings</p>
+        <span id="total-savings"></span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div>
+        <div id="graph-container">
+          <canvas id="expenses-by-date-chart" width="300" height="100"></canvas>
+        </div>
+
+        <div id="first-four-transactions">
+          <h2>Transaction History</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-list">
+              <!-- Transaction items will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div id="graph-container">
+          <canvas id="expense-income-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve data from localStorage
+        const data = JSON.parse(localStorage.getItem("entries"));
+
+        // Calculate and display total income, total expenses, and available balance
+        let totalIncome = 0;
+        let totalExpenses = 0;
+        if (data) {
+          data.forEach((entry) => {
+            if (entry.type === "Income") {
+              totalIncome += entry.amount;
+            } else if (entry.type === "Expense") {
+              totalExpenses += entry.amount;
+            }
+          });
+        }
+
+        document.getElementById("total-income").textContent =
+          totalIncome.toFixed(2);
+        document.getElementById("total-expenses").textContent =
+          totalExpenses.toFixed(2);
+        document.getElementById("available-balance").textContent = (
+          totalIncome - totalExpenses
+        ).toFixed(2);
+
+        // Display the first four transactions in a table
+        const transactionList = document.getElementById("transaction-list");
+        for (let i = 0; i < 4 && i < data.length; i++) {
+          const entry = data[i];
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${entry.date}</td>
+      <td>${entry.type}</td>
+      <td>${entry.amount.toFixed(2)}</td>
+    `;
+          transactionList.appendChild(row);
+        }
+
+        // Create a data structure for the graph
+        const graphData = {
+          labels: ["Income", "Expenses"],
+          datasets: [
+            {
+              data: [totalIncome, totalExpenses],
+              backgroundColor: ["#9aabd7", "#ac927a"],
+            },
+          ],
+        };
+
+        // Get the canvas element and create a chart
+        const graphCanvas = document
+          .getElementById("expense-income-chart")
+          .getContext("2d");
+        new Chart(graphCanvas, {
+          type: "pie",
+          data: graphData,
+          options: {
+            responsive: true,
+            legend: {
+              position: "top",
+            },
+            maintainAspectRatio: false, // Add this line to control width and height
+            width: 300, // Set the width to 300px
+            height: 600,
+          },
+        });
+
+        // Create an object to map dates to total expenses
+        const expensesByDate = {};
+
+        if (data) {
+          data.forEach((entry) => {
+            if (entry.type === "Expense") {
+              // Check if the date already exists in the object, and add the expense
+              if (expensesByDate[entry.date]) {
+                expensesByDate[entry.date] += entry.amount;
+              } else {
+                expensesByDate[entry.date] = entry.amount;
+              }
+            }
+          });
+        }
+
+        // Create an array of dates and corresponding total expenses
+        const dates = Object.keys(expensesByDate);
+        const total_expenses = dates.map((date) => expensesByDate[date]);
+
+        // Create the graph
+        const ctx = document
+          .getElementById("expenses-by-date-chart")
+          .getContext("2d");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: "Total Expenses",
+                data: total_expenses,
+                backgroundColor: "#9aabd7",
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

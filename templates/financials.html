@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/financials.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="../static/financials.js"></script>
+    <title>Financials</title>
+  </head>
+  <body>
+    <div id="container">
+      <!-- Expense/Income Form -->
+      <form id="form">
+        <div id="radio">
+          <!-- Radio buttons to toggle between Expense and Income -->
+          <input
+            type="radio"
+            name="entryType"
+            id="expense"
+            value="expense"
+            onchange="toggle()"
+          />
+          Expense
+          <input
+            type="radio"
+            name="entryType"
+            value="income"
+            onchange="toggle()"
+          />
+          Income<br /><br />
+        </div>
+
+        <!-- Input fields for date, category, amount, and description -->
+        <label for="date" class="required">Date:</label>
+        <input type="date" id="date" name="date" required /> <br /><br />
+        <label for="category" class="required">Category:</label>
+        <select id="category" name="category" required>
+          <option value="Transport">Transport</option>
+          <option value="Education">Education</option>
+          <option value="Hospital">Hospital</option>
+          <option value="Utilities">Utilities</option>
+        </select>
+        <br /><br />
+        <label for="amount" class="required">Amount:</label>
+        <input
+          type="text"
+          id="amount"
+          name="amount"
+          placeholder="KSH"
+          required
+        /><br /><br />
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea><br /><br />
+
+        <!-- Button to add an entry (Expense/Income) -->
+        <button type="button" id="addButton" onclick="addEntry()"></button>
+      </form>
+
+      <!-- New elements to display total income, total expenses and available balance -->
+      <div class="summary">
+        <div class="display">
+          <i class="fa-solid fa-sack-dollar" style="color: #a98f76"></i> <br />
+          <span id="total-income">Total Income: 0</span>
+        </div>
+        <div class="display">
+          <i class="fa-solid fa-money-bill-trend-up" style="color: #a98f76"></i>
+          <br />
+          <span id="total-expenses">Total Expenses: 0</span>
+        </div>
+        <div class="display">
+          <i class="fa-solid fa-scale-balanced" style="color: #a98f76"></i>
+          <br />
+          <span id="available-balance">Available Balance: 0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table to display Expense/Income entries -->
+    <div class="container">
+      <ul id="expenseTable">
+        <li class="table-header">
+          <!-- Table headers -->
+          <div class="col col-1">Date</div>
+          <div class="col col-2">Category</div>
+          <div class="col col-3">Description</div>
+          <div class="col col-4" id="amount">Amount</div>
+          <!-- New column header for transaction type -->
+          <div class="col col-5">Transaction Type</div>
+          <div class="col col-6">Modify</div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
