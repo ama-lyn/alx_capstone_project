@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MoneyM8</title>
+    <link rel="stylesheet" href="../static/header.css" />
     <link rel="stylesheet" href="../static/main.css" />
 
     <link
@@ -13,13 +14,20 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap"
+      rel="stylesheet"
+    />
     <script src="../static/financials.js"></script>
+    <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header>
       <nav id="nav-bar">
-        <img src="../static/6.jpg" alt="logo" />
+        <img src="../static/MONEYM8.png" alt="logo" />
         <ul>
           <li>
             <a href="/dashboard" class="nav-link">Dashboard</a>
@@ -79,6 +87,11 @@
             </tbody>
           </table>
         </div>
+        <div>
+          <button id="show-more-button" onclick="showMoreTransactions()">
+            Show More
+          </button>
+        </div>
       </div>
       <div>
         <div id="graph-container">
@@ -88,6 +101,11 @@
     </div>
 
     <script>
+      //Show more transactions **global
+      function showMoreTransactions() {
+        // Redirect to the financials page
+        window.location.href = "/financials";
+      }
       document.addEventListener("DOMContentLoaded", function () {
         // Retrieve data from localStorage
         const data = JSON.parse(localStorage.getItem("entries"));

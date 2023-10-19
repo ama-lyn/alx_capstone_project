@@ -1,0 +1,41 @@
+/*HEADER*/
+nav {
+  border: 2px solid #212c46;
+  border-radius: 20px;
+}
+#nav-bar {
+  background: linear-gradient(to right, #2d3e66, #272a45);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 1100px;
+}
+
+img {
+  width: 100px;
+  height: 50px;
+  border-radius: 15px;
+}
+
+#nav-bar ul li {
+  list-style: none;
+  display: inline-block;
+  position: relative;
+  margin: 0 20px;
+}
+
+#nav-bar ul li a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s ease-in-out;
+}
+
+#nav-bar ul li a:hover {
+  color: #a98f76;
+}
+#nav-bar ul li a:hover {
+  color: #a98f76;
+  text-decoration: underline;
+}

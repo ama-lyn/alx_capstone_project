@@ -85,6 +85,7 @@ li {
 .col-6 {
   flex-basis: 10%;
 }
+
 @media all and (max-width: 767px) {
   .table-header {
     display: none;
