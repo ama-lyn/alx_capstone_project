@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financials</title>
+    <link rel="stylesheet" href="../static/header.css" />
     <link rel="stylesheet" href="../static/financials.css" />
     <link
       rel="stylesheet"
@@ -11,10 +13,32 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap"
+      rel="stylesheet"
+    />
     <script src="../static/financials.js"></script>
-    <title>Financials</title>
   </head>
   <body>
+    <!-- Navigation-->
+    <header>
+      <nav id="nav-bar">
+        <img src="../static/MONEYM8.png" alt="logo" />
+        <ul>
+          <li>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+          </li>
+          <li>
+            <a href="/financials" class="nav-link">Financials</a>
+          </li>
+          <li><a href="/financewatch" class="nav-link">Finance Watch</a></li>
+          <li><a href="/analytics" class="nav-link">Analytics</a></li>
+          <li><a href="/contact" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </header>
     <div id="container">
       <!-- Expense/Income Form -->
       <form id="form">
@@ -58,12 +82,10 @@
         /><br /><br />
         <label for="description">Description:</label>
         <textarea id="description" name="description"></textarea><br /><br />
-
-        <!-- Button to add an entry (Expense/Income) -->
         <button type="button" id="addButton" onclick="addEntry()"></button>
       </form>
 
-      <!-- New elements to display total income, total expenses and available balance -->
+      <!-- Elements to display total income, total expenses and available balance -->
       <div class="summary">
         <div class="display">
           <i class="fa-solid fa-sack-dollar" style="color: #a98f76"></i> <br />
@@ -91,7 +113,6 @@
           <div class="col col-2">Category</div>
           <div class="col col-3">Description</div>
           <div class="col col-4" id="amount">Amount</div>
-          <!-- New column header for transaction type -->
           <div class="col col-5">Transaction Type</div>
           <div class="col col-6">Modify</div>
         </li>

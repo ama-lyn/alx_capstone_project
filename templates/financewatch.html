@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finance Watch</title>
+    <link rel="stylesheet" href="../static/header.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Playpen Sans", cursive;
+      }
+
+      form {
+        width: 300px;
+        /* Form outline */
+        padding: 1em;
+        border: 2px solid #202941;
+        border-radius: 1em;
+      }
+      label {
+        /* Uniform size & alignment */
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+      }
+      button {
+        border-radius: 20px;
+        background-color: #9cabd6;
+        margin-left: 160px;
+      }
+
+      #watch {
+        display: flex;
+        justify-content: space-between;
+        width: 1000px;
+        margin-left: 40px;
+        margin-top: 30px;
+      }
+      #watch img {
+        margin-right: 50px;
+        width: 400px;
+        height: 200px;
+      }
+      #budget-list {
+        display: flex;
+        margin-top: 20px;
+      }
+      .budget {
+        border: 2px solid #9cabd6;
+        margin-right: 30px;
+        padding: 20px;
+        border-radius: 20px;
+        width: 200px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation-->
+    <header>
+      <nav id="nav-bar">
+        <img src="../static/MONEYM8.png" alt="logo" />
+        <ul>
+          <li>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+          </li>
+          <li>
+            <a href="/financials" class="nav-link">Financials</a>
+          </li>
+          <li><a href="/financewatch" class="nav-link">Finance Watch</a></li>
+          <li><a href="/analytics" class="nav-link">Analytics</a></li>
+          <li><a href="/contact" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Expense/Income form-->
+    <div id="watch">
+      <div>
+        <form id="budget-form">
+          <!-- Input fields for spending limit, category, and description -->
+          <label for="limit" class="required">Spending Limit:</label>
+          <input type="text" id="limit" name="limit" required /> <br /><br />
+          <label for="category" class="required">Category:</label>
+          <select id="category" name="category" required>
+            <option value="Transport">Transport</option>
+            <option value="Education">Education</option>
+            <option value="Hospital">Hospital</option>
+            <option value="Utilities">Utilities</option>
+          </select>
+          <br /><br />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description"></textarea><br /><br />
+          <button type="button" id="add-budget">Add Budget</button>
+        </form>
+      </div>
+      <div id="image">
+        <!-- I will add an image later-->
+      </div>
+    </div>
+
+    <!-- Tablets of the budget-->
+    <div id="budget-list">
+      <!-- Budget tablets will be displayed here -->
+    </div>
+    <script>
+      // Function to add a budget
+      function addBudget() {
+        const limit = document.getElementById("limit").value;
+        const category = document.getElementById("category").value;
+        const description = document.getElementById("description").value;
+
+        if (limit && category) {
+          const budget = {
+            limit,
+            category,
+            description,
+          };
+
+          // Save the budget data to local storage
+          const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+          budgets.push(budget);
+          localStorage.setItem("budgets", JSON.stringify(budgets));
+
+          // Add the budget tablet to the list
+          const budgetList = document.getElementById("budget-list");
+          const budgetDiv = document.createElement("div");
+          budgetDiv.className = "budget";
+
+          // Display the budget content
+          budgetDiv.innerHTML = `
+                <div style="color: #222b4a;"><strong>Category:</strong> ${category}</div>
+                <div style="color: #222b4a;"><strong>Spending Limit:</strong> ${limit}</div>
+                <div style="color: #222b4a;"><strong>Description:</strong> ${description}</div>
+                <div>
+                    <i class="fa-regular fa-pen-to-square" onclick="editBudget(this)" style="color: #ad927a; cursor: pointer;"></i>
+                    <i class="fa-solid fa-delete-left" onclick="deleteBudget(this)" style="color: #212c42; cursor: pointer;"></i>
+                </div>
+            `;
+
+          budgetList.appendChild(budgetDiv);
+
+          // Clear the form fields
+          document.getElementById("budget-form").reset();
+        }
+      }
+
+      // Function to delete a budget
+      function deleteBudget(button) {
+        const budgetDiv = button.closest(".budget");
+        const budgetList = document.getElementById("budget-list");
+        budgetList.removeChild(budgetDiv);
+
+        // Remove the budget data from local storage
+        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        const category = budgetDiv
+          .querySelector("div:first-child")
+          .textContent.split(": ")[1];
+        const updatedBudgets = budgets.filter(
+          (budget) => budget.category !== category
+        );
+        localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
+      }
+
+      // Function to edit a budget
+      function editBudget(button) {
+        const budgetDiv = button.closest(".budget");
+        const category = budgetDiv
+          .querySelector("div:first-child")
+          .textContent.split(": ")[1];
+        const limit = budgetDiv
+          .querySelector("div:nth-child(2)")
+          .textContent.split(": ")[1];
+        const description = budgetDiv
+          .querySelector("div:last-child")
+          .textContent.split(": ")[1];
+
+        // Fill the form fields with the budget data
+        document.getElementById("category").value = category;
+        document.getElementById("limit").value = limit;
+        document.getElementById("description").value = description;
+
+        // Delete the budget tablet
+        deleteBudget(button);
+      }
+
+      // Event listener for adding a budget
+      document
+        .getElementById("add-budget")
+        .addEventListener("click", addBudget);
+
+      // Load and display existing budgets from local storage
+      const storedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+      const budgetList = document.getElementById("budget-list");
+
+      storedBudgets.forEach((budget) => {
+        const budgetDiv = document.createElement("div");
+        budgetDiv.className = "budget";
+
+        budgetDiv.innerHTML = `
+            <div style="color: #222b4a;"><strong>Category:</strong> ${budget.category}</div>
+            <div style="color: #222b4a;"><strong>Spending Limit:</strong> ${budget.limit}</div>
+            <div style="color: #222b4a;"><strong>Description:</strong> ${budget.description}</div>
+            <div>
+                <i class="fa-regular fa-pen-to-square" onclick="editBudget(this)" style="color: #ad927a; cursor: pointer;"></i>
+                <i class="fa-solid fa-delete-left" onclick="deleteBudget(this)" style="color: #212c42; cursor: pointer;"></i>
+            </div>
+        `;
+
+        budgetList.appendChild(budgetDiv);
+      });
+
+      // Function to get the spending limit from financewatch.html
+      function getSpendingLimit(category) {
+        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        const budget = budgets.find((b) => b.category === category);
+        return budget ? parseFloat(budget.limit) : null;
+      }
+    </script>
+  </body>
+</html>

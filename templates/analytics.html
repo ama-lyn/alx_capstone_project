@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/header.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/financials.js"></script>
+    <script src="../static/financewatch.js"></script>
+    <style>
+      body {
+        font-family: "Playpen Sans", cursive;
+      }
+      .charts {
+        border: 2px solid #202941;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        width: 900px;
+        margin-left: 70px;
+        padding: 20px;
+      }
+      .chart {
+        width: 1500px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header>
+      <nav id="nav-bar">
+        <img src="../static/MONEYM8.png" alt="logo" />
+        <ul>
+          <li>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+          </li>
+          <li>
+            <a href="/financials" class="nav-link">Financials</a>
+          </li>
+          <li><a href="/financewatch" class="nav-link">Finance Watch</a></li>
+          <li><a href="/analytics" class="nav-link">Analytics</a></li>
+          <li><a href="/contact" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- End of navigation -->
+
+    <!-- Statistics-->
+    <div>
+      <h2>Explore Your Financial Insights</h2>
+
+      <div class="charts">
+        <!-- Pie Chart: Amount spent in each category -->
+        <div class="chart">
+          <canvas id="categoryPieChart"></canvas>
+        </div>
+
+        <!-- Bar Graph: Spending limit vs. actual amount for each category -->
+        <div class="chart">
+          <canvas id="spendingLimitBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Retrieve data from local storage (financials.html and financewatch.html)
+      const financialsData = JSON.parse(localStorage.getItem("entries")) || [];
+      const financeWatchData =
+        JSON.parse(localStorage.getItem("budgets")) || [];
+
+      // Process and structure the data for the charts
+      const categories = financialsData.map((entry) => entry.category);
+      const amounts = financialsData.map((entry) => entry.amount);
+
+      const financeWatchCategories = financeWatchData.map(
+        (budget) => budget.category
+      );
+      const spendingLimits = financeWatchData.map((budget) =>
+        parseFloat(budget.limit)
+      );
+
+      // Create a pie chart for amount spent in each category
+      var ctx1 = document.getElementById("categoryPieChart").getContext("2d");
+      var categoryPieChart = new Chart(ctx1, {
+        type: "pie",
+        data: {
+          labels: categories,
+          datasets: [
+            {
+              data: amounts,
+              backgroundColor: [
+                "#202941",
+                "#9cabd6",
+                "#2f4581",
+                "rgba(75, 192, 192, 0.7)",
+                "rgba(153, 102, 255, 0.7)",
+              ],
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+        },
+      });
+
+      // Create a bar graph for spending limit vs. actual amount for each category
+      var ctx2 = document
+        .getElementById("spendingLimitBarChart")
+        .getContext("2d");
+      var spendingLimitBarChart = new Chart(ctx2, {
+        type: "bar",
+        data: {
+          labels: financeWatchCategories,
+          datasets: [
+            {
+              label: "Spending Limit",
+              data: spendingLimits,
+              backgroundColor: "rgba(255, 99, 132, 0.7)",
+            },
+            {
+              label: "Actual Amount",
+              data: amounts,
+              backgroundColor: "#94a9d6",
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              beginAtZero: true,
+            },
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+          title: {
+            display: true,
+            text: "Spending Limit vs. Actual Amount by Category",
+          },
+        },
+        layout: {
+          padding: {
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

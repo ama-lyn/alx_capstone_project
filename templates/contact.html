@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/header.css" />
+    <link rel="stylesheet" href="../static/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <title>Contact</title>
+  </head>
+  <body>
+    <!-- SNavigation-->
+    <header>
+      <nav id="nav-bar">
+        <img src="../static/MONEYM8.png" alt="logo" />
+        <ul>
+          <li>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+          </li>
+          <li>
+            <a href="/financials" class="nav-link">Financials</a>
+          </li>
+          <li><a href="/financewatch" class="nav-link">Finance Watch</a></li>
+          <li><a href="/analytics" class="nav-link">Analytics</a></li>
+          <li><a href="/contact" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Contact form-->
+    <div class="position">
+      <form
+        id="contact"
+        action="https://formsubmit.co/gwen.amalyn@gmail.com"
+        method="POST"
+      >
+        <p>Any problem? Reach out</p>
+        <input type="text" name="Name" placeholder="Full Name" required />
+        <br />
+        <input type="email" name="Email" placeholder="Email" /> <br />
+        <textarea
+          name="message"
+          placeholder="Message"
+          cols="30"
+          rows="10"
+          required
+        ></textarea>
+        <br />
+        <button type="Send">Send</button>
+      </form>
+    </div>
+  </body>
+</html>
