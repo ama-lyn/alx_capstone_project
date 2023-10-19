@@ -1,8 +1,12 @@
+body {
+  font-family: "Playpen Sans", cursive;
+  font-size: 15px;
+}
 #container {
   display: flex;
   justify-content: space-between;
   margin: 50px;
-  width: 900px;
+  width: 1000px;
 }
 .summary {
   display: flex;
@@ -50,7 +54,8 @@ label {
 #expenseTable {
   list-style: none;
 }
-li {
+
+#expenseTable li {
   border-radius: 3px;
   padding: 25px 30px;
   display: flex;
