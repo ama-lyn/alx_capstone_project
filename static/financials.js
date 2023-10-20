@@ -61,8 +61,8 @@ function addEntry() {
       .replace("income", "Income")
       .replace("expense", "Expense")}</div>
     <div class="col col-6">
-       <i class="fa-regular fa-pen-to-square" onclick="editExpense(this)" style="color: #ad927a; cursor:pointer;"></i>   
-       <i class="fa-solid fa-delete-left"  onclick="deleteExpense(this)" style="color: #212c42; cursor:pointer;"></i>
+       <i class="fa-regular fa-pen-to-square" onclick="editExpense(this)" style="color: #212c42; cursor:pointer;"></i>   
+       <i class="fa-solid fa-delete-left"  onclick="deleteExpense(this)" style="color: #ad927a; cursor:pointer;"></i>
     </div>
   `;
 
