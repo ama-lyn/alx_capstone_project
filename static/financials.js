@@ -39,7 +39,6 @@ function addEntry() {
     editRow.querySelector(".col-2").textContent = category;
     editRow.querySelector(".col-3").textContent = description;
     editRow.querySelector(".col-4").textContent = amount.toFixed(2);
-    // Update the transaction type
     editRow.querySelector(".col-5").textContent = type;
 
     // Reset the editRow variable and form
@@ -56,7 +55,6 @@ function addEntry() {
     <div class="col col-2">${category}</div>
     <div class="col col-3">${description}</div>
     <div class="col col-4">${amount.toFixed(2)}</div>
-    <!-- New div element for transaction type -->
     <div class="col col-5">${type
       .replace("income", "Income")
       .replace("expense", "Expense")}</div>
@@ -176,7 +174,6 @@ function saveData() {
       const category = row.querySelector(".col-2").textContent;
       const description = row.querySelector(".col-3").textContent;
       const amount = parseFloat(row.querySelector(".col-4").textContent);
-      // Get the transaction type from each row
       const type = row.querySelector(".col-5").textContent;
       // Create an object with the values and push it to the array
       const entry = { date, category, description, amount, type };
